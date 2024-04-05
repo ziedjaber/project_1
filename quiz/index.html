@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="s1.css">
+</head>
+<body>
+<div class="qa_box" id="quizContainer">
+    <div class="qa_header">
+        <span>Score:<span id="score">0</span></span>
+    </div>
+    <h4>1. What is HTML?</h4>
+
+    <div class="qa_body">
+        <div class="qa_set active">
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>A markup language for creating web pages</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="correct">
+                <span>A programming language for backend development</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>A scripting language for animations</span>  
+            </div>
+        </div>
+    </div>
+    <div class="qa_footer">
+        <span class="btn1" id="submit">Submit</span>
+        <span class="btn1" id="repeat" style="display: none;">Another Game</span>
+    </div>
+</div>
+
+<div id="resultContainer" class="result-container" style="display: none;">
+    <div id="resultMessage" class="result-message"></div>
+    <div class="result-score">Final Score: <span id="finalScore">0</span> out of <span id="totalQuestions">0</span></div>
+    <div>
+        <span class="btn1" id="repeat">Another Game</span>
+    </div>
+</div>
+
+<script>
+    var currentQuestion = 0;
+    var totalQuestions = document.querySelectorAll('.qa_set').length;
+    var correctAnswers = 0;
+
+    function showQuestion(index) {
+        var questions = document.querySelectorAll('.qa_set');
+        questions.forEach(function(question, i) {
+            if (i === index) {
+                question.classList.add('active');
+            } else {
+                question.classList.remove('active');
+            }
+        });
+    }
+
+    function calculateScore() {
+        var totalScore = 0;
+        var answers = document.querySelectorAll('input[type="radio"]:checked');
+        correctAnswers = 0;
+        answers.forEach(function(answer) {
+            if (answer.value === 'correct') {
+                totalScore++;
+                correctAnswers++;
+            }
+        });
+        document.getElementById('score').textContent = totalScore;
+        return totalScore;
+    }
+
+    function showResult() {
+        var finalScore = calculateScore();
+        var scorePercentage = (correctAnswers / totalQuestions) * 100;
+        var resultMessage = document.getElementById('resultMessage');
+        var resultText = "";
+        if (scorePercentage < 50) {
+            resultText = "Try again";
+        } else if (scorePercentage === 100) {
+            resultText = "Great game";
+        } else {
+            resultText = "Good job";
+        }
+        resultMessage.textContent = resultText;
+        document.getElementById('finalScore').textContent = finalScore;
+        document.getElementById('totalQuestions').textContent = totalQuestions;
+        document.getElementById('quizContainer').style.display = 'none';
+        document.getElementById('resultContainer').style.display = 'block';
+        document.getElementById('repeat').style.display = 'block';
+    }
+
+    function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < totalQuestions) {
+            showQuestion(currentQuestion);
+        } else {
+            showResult();
+        }
+    }
+
+    document.getElementById('submit').addEventListener('click', function() {
+        nextQuestion();
+    });
+
+    document.getElementById('repeat').addEventListener('click', function() {
+        currentQuestion = 0;
+        document.getElementById('resultContainer').style.display = 'none';
+        document.getElementById('score').textContent = '0';
+        showQuestion(currentQuestion);
+        document.getElementById('quizContainer').style.display = 'block';
+    });
+
+    showQuestion(currentQuestion);
+</script>
+
+</body>
+</html>
