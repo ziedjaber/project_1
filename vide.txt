@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    margin: 0;
+    color: #0b58a7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.qa_box {
+    width: 500px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+}
+
+.qa_header {
+    background-color: #3198ff;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-radius: 15px 15px 0 0;
+    font-size: 20px;
+}
+
+.qa_set {
+    display: none;
+}
+
+.qa_set.active {
+    display: block;
+}
+
+.qa_set h4 {
+    margin: 0 0 15px;
+    font-size: 20px;
+}
+
+.qa_ans_row {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.qa_ans_row input {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.qa_ans_row span {
+    border-width: 2px;
+    border-style: solid;
+    border-color: transparent;
+    display: block;
+    padding: 8px 15px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    transition: all 0.3s ease-out;
+}
+
+.qa_ans_row:hover span {
+    background-color: #0b58a7;
+    border-color: #00bfff;
+    color: white;
+}
+
+.qa_ans_row input:checked+span {
+    background-color: #0b58a7;
+    color: white;
+}
+
+.qa_ans_row input[valid]:checked+span {
+    background-color: green;
+    color: white;
+}
+
+.qa_footer {
+    padding: 10px 0 0;
+    text-align: right;
+}
+
+.btn1 {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: #0b58a7;
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+}
+
+.btn1:hover {
+    background-color: #064484;
+}
+.result-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    width: 400px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.result-message {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #ff7f50;
+}
+
+.result-score {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.btn1 {
+    display: inline-block;
+    padding: 10px 30px;
+    background-color: #ff7f50;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.btn1:hover {
+    background-color: #ff6347;
+}
+img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+.btn-sound{
+    background-color: transparent;
+    border-color: transparent;;
+}
+    </style>
+    <link rel="stylesheet" href="s1.css">
+</head>
+<body>
+<div class="qa_box" id="quizContainer">
+    <div class="qa_header" style="direction: rtl;">
+        <span>    مجموع النقاط<span id="score">      :   0</span></span>
+    </div>
+    <h4 style="direction: rtl;">أختر الإجابة الصحيحة</h4>
+
+    <div class="qa_body" style="direction: rtl;">
+        <div class="qa_set active">
+            <button class="btn-sound" onclick="playSound('1.mp3')"> <!-- Replace 'path_to_sound_file' with the actual path to the sound file for this question -->
+                <img src="speaker.png" alt="Speaker Icon">
+            </button>
+        
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>0.843</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="correct">
+                <span>84.3</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>843</span>  
+            </div>
+        </div>
+        <div class="qa_set active">
+            <button class="btn-sound" onclick="playSound('2.mp3')"> <!-- Replace 'path_to_sound_file' with the actual path to the sound file for this question -->
+                <img src="speaker.png" alt="Speaker Icon">
+            </button>
+        
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>78.231</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>783.21</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="correct">
+                <span>7832.1</span>  
+            </div>
+        </div>
+        <div class="qa_set active">
+            <button class="btn-sound" onclick="playSound('3.mp3')"> <!-- Replace 'path_to_sound_file' with the actual path to the sound file for this question -->
+                <img src="speaker.png" alt="Speaker Icon">
+            </button>
+        
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>30.25</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="correct">
+                <span>3025</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>302.5</span>  
+            </div>
+        </div>
+        <div class="qa_set active">
+            <button class="btn-sound" onclick="playSound('4.mp3')"> <!-- Replace 'path_to_sound_file' with the actual path to the sound file for this question -->
+                <img src="speaker.png" alt="Speaker Icon">
+            </button>
+        
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="correct">
+                <span>235.6</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>2.356</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>2356</span>  
+            </div>
+        </div>
+        <div class="qa_set active">
+            <button class="btn-sound" onclick="playSound('5.mp3')"> <!-- Replace 'path_to_sound_file' with the actual path to the sound file for this question -->
+                <img src="speaker.png" alt="Speaker Icon">
+            </button>
+        
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>48.38</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="correct">
+                <span>483.8</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>4.83800</span>  
+            </div>
+        </div>
+        <div class="qa_set active">
+            <button class="btn-sound" onclick="playSound('6.mp3')"> <!-- Replace 'path_to_sound_file' with the actual path to the sound file for this question -->
+                <img src="speaker.png" alt="Speaker Icon">
+            </button>
+        
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>47378</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="incorrect">
+                <span>47.318</span>  
+            </div>
+            <div class="qa_ans_row">
+                <input type="radio" name="a1" value="correct">
+                <span>4737.8</span>  
+            </div>
+        </div>
+    </div>
+    <div class="qa_footer">
+        <span class="btn1" id="submit">تأكيد</span>
+        <span class="btn1" id="repeat" style="display: none;"><button onclick="r()" style="font-family: Arial, Helvetica, sans-serif;">إلعب مجددا</button></span>
+    </div>
+</div>
+
+<div id="resultContainer" class="result-container" style="display: none;">
+    <div id="resultMessage" class="result-message"></div>
+    <div class="result-score" style="font-family: Arial, Helvetica, sans-serif;">مجموع النقاط النهائي  <span id="finalScore" style="font-family: Arial, Helvetica, sans-serif;">0</span> من أصل  <span id="totalQuestions" style="font-family: Arial, Helvetica, sans-serif;">0</span></div>
+    <div>
+        <span class="btn1" id="repeat"><button onclick="r()" style="background-color: transparent; color: #fff; border-color: transparent;font-size: 20px;" style="font-family: Arial, Helvetica, sans-serif;">إلعب مجددا</button></span>
+    </div>
+</div>
+
+<script>
+    function r(){
+        location.reload();
+    }
+    function playSound(soundFilePath) {
+    var audio = new Audio(soundFilePath);
+    audio.play();
+}
+    var currentQuestion = 0;
+    var totalQuestions = document.querySelectorAll('.qa_set').length;
+    var correctAnswers = 0;
+
+    function showQuestion(index) {
+        var questions = document.querySelectorAll('.qa_set');
+        questions.forEach(function(question, i) {
+            if (i === index) {
+                question.classList.add('active');
+            } else {
+                question.classList.remove('active');
+            }
+        });
+    }
+
+    function calculateScore() {
+        var totalScore = 0;
+        var answers = document.querySelectorAll('input[type="radio"]:checked');
+        correctAnswers = 0;
+        answers.forEach(function(answer) {
+            if (answer.value === 'correct') {
+                totalScore++;
+                correctAnswers++;
+            }
+        });
+        document.getElementById('score').textContent = totalScore;
+        return totalScore;
+    }
+
+    function showResult() {
+        var finalScore = calculateScore();
+        var scorePercentage = (correctAnswers / totalQuestions) * 100;
+        var resultMessage = document.getElementById('resultMessage');
+        var resultText = "";
+        if (scorePercentage < 50) {
+            resultText = "حاول مجددا";
+        } else if (scorePercentage === 100) {
+            resultText = "Great game";
+        } else {
+            resultText = "Good job";
+        }
+        resultMessage.textContent = resultText;
+        document.getElementById('finalScore').textContent = finalScore;
+        document.getElementById('totalQuestions').textContent = totalQuestions;
+        document.getElementById('quizContainer').style.display = 'none';
+        document.getElementById('resultContainer').style.display = 'block';
+        document.getElementById('repeat').style.display = 'block';
+    }
+
+    function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < totalQuestions) {
+            showQuestion(currentQuestion);
+        } else {
+            showResult();
+        }
+    }
+
+    document.getElementById('submit').addEventListener('click', function() {
+        nextQuestion();
+    });
+
+    document.getElementById('repeat').addEventListener('click', function() {
+        currentQuestion = 0;
+        document.getElementById('resultContainer').style.display = 'none';
+        document.getElementById('score').textContent = '0';
+        showQuestion(currentQuestion);
+        document.getElementById('quizContainer').style.display = 'block';
+    });
+
+    showQuestion(currentQuestion);
+</script>
+
+</body>
+</html>
